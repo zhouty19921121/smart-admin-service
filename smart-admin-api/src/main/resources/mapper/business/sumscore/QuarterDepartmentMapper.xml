@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.smartadmin.module.business.sumscore.dao.QuarterDepartmentDao">
+
+    <resultMap id="QuarterDepartmentVO" type="net.lab1024.smartadmin.module.business.sumscore.domain.vo.QuarterDepartmentVO"></resultMap>
+    <resultMap id="QuarterDepartmentExcelVO" type="net.lab1024.smartadmin.module.business.sumscore.domain.vo.QuarterDepartmentExcelVO"></resultMap>
+
+
+    <select id="queryByPage" resultMap="QuarterDepartmentVO">
+        select
+          id,
+          p_id,
+          item1,
+          item2,
+          item3,
+          item4,
+          item5,
+          item6,
+          item7,
+          item8,
+          item9,
+          item10,
+          item11,
+          item12,
+          approval,
+          approvalperson,
+          approvaltime,
+          total,
+          quarter,
+          year,
+          is_delete,
+          model_id,
+          update_time,
+          create_time
+        from t_score_quarter_department
+        <where>
+            <if test="queryDTO.id != null">
+                AND id = #{queryDTO.id}
+            </if>
+            <if test="queryDTO.pId != null">
+                AND p_id = #{queryDTO.pId}
+            </if>
+            <if test="queryDTO.year != null and queryDTO.year != ''">
+                AND year = #{queryDTO.year}
+            </if>
+            <if test="queryDTO.quarter != null">
+                AND quarter = #{queryDTO.quarter}
+            </if>
+            <if test="queryDTO.approval != null">
+                AND approval = #{queryDTO.approval}
+            </if>
+
+            <if test="queryDTO.createTimeBegin != null ">
+                AND create_time &gt;= #{queryDTO.createTimeBegin}
+            </if>
+            <if test="queryDTO.createTimeEnd != null ">
+                AND create_time &lt;= #{queryDTO.createTimeEnd}
+            </if>
+
+            <if test="queryDTO.updateTimeBegin != null ">
+                AND update_time &gt;= #{queryDTO.updateTimeBegin}
+            </if>
+            <if test="queryDTO.updateTimeEnd != null ">
+                AND update_time &lt;= #{queryDTO.updateTimeEnd}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAllExportData" resultMap="QuarterDepartmentExcelVO">
+        select
+           id,
+           p_id,
+           item1,
+           item2,
+           item3,
+           item4,
+           item5,
+           item6,
+           item7,
+           item8,
+           item9,
+           item10,
+           item11,
+           item12,
+           approval,
+           approvalperson,
+           approvaltime,
+           total,
+           quarter,
+           year,
+           is_delete,
+           model_id,
+           update_time,
+           create_time
+        from t_score_quarter_department
+        <where>
+            <if test="queryDTO.id != null">
+                AND id = #{queryDTO.id}
+            </if>
+            <if test="queryDTO.pId != null">
+                AND p_id = #{queryDTO.pId}
+            </if>
+            <if test="queryDTO.year != null and queryDTO.year != ''">
+                AND year = #{queryDTO.year}
+            </if>
+            <if test="queryDTO.quarter != null">
+                AND quarter = #{queryDTO.quarter}
+            </if>
+            <if test="queryDTO.approval != null">
+                AND approval = #{queryDTO.approval}
+            </if>
+
+            <if test="queryDTO.createTimeBegin != null ">
+                AND create_time &gt;= #{queryDTO.createTimeBegin}
+            </if>
+            <if test="queryDTO.createTimeEnd != null ">
+                AND create_time &lt;= #{queryDTO.createTimeEnd}
+            </if>
+
+            <if test="queryDTO.updateTimeBegin != null ">
+                AND update_time &gt;= #{queryDTO.updateTimeBegin}
+            </if>
+            <if test="queryDTO.updateTimeEnd != null ">
+                AND update_time &lt;= #{queryDTO.updateTimeEnd}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBatchExportData" resultMap="QuarterDepartmentExcelVO">
+        select
+         id,
+         p_id,
+         item1,
+         item2,
+         item3,
+         item4,
+         item5,
+         item6,
+         item7,
+         item8,
+         item9,
+         item10,
+         item11,
+         item12,
+         approval,
+         approvalperson,
+         approvaltime,
+         total,
+         quarter,
+         year,
+         is_delete,
+         model_id,
+         update_time,
+         create_time
+        from t_score_quarter_department
+        where id in
+        <foreach collection="idList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="deleteById">
+        delete from t_score_quarter_department where id = #{id}
+    </delete>
+
+    <delete id="deleteByIdList">
+        delete from t_score_quarter_department where id in
+        <foreach collection="idList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

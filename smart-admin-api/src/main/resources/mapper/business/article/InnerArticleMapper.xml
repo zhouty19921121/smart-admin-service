@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.smartadmin.module.business.article.dao.InnerArticleDao">
+
+    <resultMap id="InnerArticleVO" type="net.lab1024.smartadmin.module.business.article.domain.vo.InnerArticleVO"></resultMap>
+    <resultMap id="InnerArticleExcelVO" type="net.lab1024.smartadmin.module.business.article.domain.vo.InnerArticleExcelVO"></resultMap>
+
+
+    <select id="queryByPage" resultMap="InnerArticleVO">
+        select
+          id,
+          title,
+          description,
+          author,
+          content,
+          content_format,
+          read_num,
+          comment_num,
+          like_num,
+          cover_type,
+          cover,
+          create_time,
+          update_time,
+          recommend,
+          category_id,
+          publish,
+          top
+        from t_inner_article
+        <where>
+            <if test="queryDTO.id != null">
+                AND id = #{queryDTO.id}
+            </if>
+            <if test="queryDTO.title != null and queryDTO.title != ''">
+                AND INSTR(title,#{queryDTO.title})
+            </if>
+            <if test="queryDTO.coverType != null">
+                AND cover_type = #{queryDTO.coverType}
+            </if>
+            <if test="queryDTO.publish != null">
+                AND publish = #{queryDTO.publish}
+            </if>
+            <if test="queryDTO.top != null">
+                AND top = #{queryDTO.top}
+            </if>
+
+            <if test="queryDTO.createTimeBegin != null ">
+                AND create_time &gt;= #{queryDTO.createTimeBegin}
+            </if>
+            <if test="queryDTO.createTimeEnd != null ">
+                AND create_time &lt;= #{queryDTO.createTimeEnd}
+            </if>
+
+            <if test="queryDTO.updateTimeBegin != null ">
+                AND update_time &gt;= #{queryDTO.updateTimeBegin}
+            </if>
+            <if test="queryDTO.updateTimeEnd != null ">
+                AND update_time &lt;= #{queryDTO.updateTimeEnd}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAllExportData" resultMap="InnerArticleExcelVO">
+        select
+           id,
+           title,
+           description,
+           author,
+           content,
+           content_format,
+           read_num,
+           comment_num,
+           like_num,
+           cover_type,
+           cover,
+           create_time,
+           update_time,
+           recommend,
+           category_id,
+           publish,
+           top
+        from t_inner_article
+        <where>
+            <if test="queryDTO.id != null">
+                AND id = #{queryDTO.id}
+            </if>
+            <if test="queryDTO.title != null and queryDTO.title != ''">
+                AND INSTR(title,#{queryDTO.title})
+            </if>
+            <if test="queryDTO.coverType != null">
+                AND cover_type = #{queryDTO.coverType}
+            </if>
+            <if test="queryDTO.publish != null">
+                AND publish = #{queryDTO.publish}
+            </if>
+            <if test="queryDTO.top != null">
+                AND top = #{queryDTO.top}
+            </if>
+
+            <if test="queryDTO.createTimeBegin != null ">
+                AND create_time &gt;= #{queryDTO.createTimeBegin}
+            </if>
+            <if test="queryDTO.createTimeEnd != null ">
+                AND create_time &lt;= #{queryDTO.createTimeEnd}
+            </if>
+
+            <if test="queryDTO.updateTimeBegin != null ">
+                AND update_time &gt;= #{queryDTO.updateTimeBegin}
+            </if>
+            <if test="queryDTO.updateTimeEnd != null ">
+                AND update_time &lt;= #{queryDTO.updateTimeEnd}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBatchExportData" resultMap="InnerArticleExcelVO">
+        select
+         id,
+         title,
+         description,
+         author,
+         content,
+         content_format,
+         read_num,
+         comment_num,
+         like_num,
+         cover_type,
+         cover,
+         create_time,
+         update_time,
+         recommend,
+         category_id,
+         publish,
+         top
+        from t_inner_article
+        where id in
+        <foreach collection="idList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="deleteById">
+        delete from t_inner_article where id = #{id}
+    </delete>
+
+    <delete id="deleteByIdList">
+        delete from t_inner_article where id in
+        <foreach collection="idList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

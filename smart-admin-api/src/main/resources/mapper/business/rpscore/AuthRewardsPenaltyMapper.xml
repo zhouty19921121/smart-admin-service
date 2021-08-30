@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.smartadmin.module.business.rpscore.dao.AuthRewardsPenaltyDao">
+
+    <resultMap id="AuthRewardsPenaltyVO" type="net.lab1024.smartadmin.module.business.rpscore.domain.vo.AuthRewardsPenaltyVO"></resultMap>
+    <resultMap id="AuthRewardsPenaltyExcelVO" type="net.lab1024.smartadmin.module.business.rpscore.domain.vo.AuthRewardsPenaltyExcelVO"></resultMap>
+
+
+    <select id="queryByPage" resultMap="AuthRewardsPenaltyVO">
+        select
+          id,
+          year,
+          quarter,
+          month,
+          p_id,
+          content,
+          item,
+          point,
+          sucinfo,
+          fillperson,
+          filltime,
+          approval,
+          approvalperson,
+          approvaltime,
+          type,
+          is_delete,
+          update_time,
+          create_time
+        from t_auth_rewards_penalty
+        <where>
+            <if test="queryDTO.content != null and queryDTO.content != ''">
+                AND INSTR(content,#{queryDTO.content})
+            </if>
+            <if test="queryDTO.item != null and queryDTO.item != ''">
+                AND INSTR(item,#{queryDTO.item})
+            </if>
+            <if test="queryDTO.pId != null">
+                AND p_id = #{queryDTO.pId}
+            </if>
+            <if test="queryDTO.approval != null">
+                AND approval = #{queryDTO.approval}
+            </if>
+            <if test="queryDTO.type != null">
+                AND type = #{queryDTO.type}
+            </if>
+
+            <if test="queryDTO.createTimeBegin != null ">
+                AND create_time &gt;= #{queryDTO.createTimeBegin}
+            </if>
+            <if test="queryDTO.createTimeEnd != null ">
+                AND create_time &lt;= #{queryDTO.createTimeEnd}
+            </if>
+
+            <if test="queryDTO.updateTimeBegin != null ">
+                AND update_time &gt;= #{queryDTO.updateTimeBegin}
+            </if>
+            <if test="queryDTO.updateTimeEnd != null ">
+                AND update_time &lt;= #{queryDTO.updateTimeEnd}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAllExportData" resultMap="AuthRewardsPenaltyExcelVO">
+        select
+           id,
+           year,
+           quarter,
+           month,
+           p_id,
+           content,
+           item,
+           point,
+           sucinfo,
+           fillperson,
+           filltime,
+           approval,
+           approvalperson,
+           approvaltime,
+           type,
+           is_delete,
+           update_time,
+           create_time
+        from t_auth_rewards_penalty
+        <where>
+            <if test="queryDTO.content != null and queryDTO.content != ''">
+                AND INSTR(content,#{queryDTO.content})
+            </if>
+            <if test="queryDTO.item != null and queryDTO.item != ''">
+                AND INSTR(item,#{queryDTO.item})
+            </if>
+            <if test="queryDTO.pId != null">
+                AND p_id = #{queryDTO.pId}
+            </if>
+            <if test="queryDTO.approval != null">
+                AND approval = #{queryDTO.approval}
+            </if>
+            <if test="queryDTO.type != null">
+                AND type = #{queryDTO.type}
+            </if>
+
+            <if test="queryDTO.createTimeBegin != null ">
+                AND create_time &gt;= #{queryDTO.createTimeBegin}
+            </if>
+            <if test="queryDTO.createTimeEnd != null ">
+                AND create_time &lt;= #{queryDTO.createTimeEnd}
+            </if>
+
+            <if test="queryDTO.updateTimeBegin != null ">
+                AND update_time &gt;= #{queryDTO.updateTimeBegin}
+            </if>
+            <if test="queryDTO.updateTimeEnd != null ">
+                AND update_time &lt;= #{queryDTO.updateTimeEnd}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBatchExportData" resultMap="AuthRewardsPenaltyExcelVO">
+        select
+         id,
+         year,
+         quarter,
+         month,
+         p_id,
+         content,
+         item,
+         point,
+         sucinfo,
+         fillperson,
+         filltime,
+         approval,
+         approvalperson,
+         approvaltime,
+         type,
+         is_delete,
+         update_time,
+         create_time
+        from t_auth_rewards_penalty
+        where id in
+        <foreach collection="idList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="deleteById">
+        delete from t_auth_rewards_penalty where id = #{id}
+    </delete>
+
+    <delete id="deleteByIdList">
+        delete from t_auth_rewards_penalty where id in
+        <foreach collection="idList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lab1024.smartadmin.module.business.group.dao.AuthGroupEmployeeDao">
+
+    <resultMap id="AuthGroupEmployeeVO" type="net.lab1024.smartadmin.module.business.group.domain.vo.AuthGroupEmployeeVO"></resultMap>
+    <resultMap id="AuthGroupEmployeeExcelVO" type="net.lab1024.smartadmin.module.business.group.domain.vo.AuthGroupEmployeeExcelVO"></resultMap>
+
+
+    <select id="queryByPage" resultMap="AuthGroupEmployeeVO">
+        select
+          id,
+          task_id,
+          employee_id,
+          update_time,
+          create_time
+        from t_auth_group_employee
+        <where>
+
+            <if test="queryDTO.createTimeBegin != null ">
+                AND create_time &gt;= #{queryDTO.createTimeBegin}
+            </if>
+            <if test="queryDTO.createTimeEnd != null ">
+                AND create_time &lt;= #{queryDTO.createTimeEnd}
+            </if>
+
+            <if test="queryDTO.updateTimeBegin != null ">
+                AND update_time &gt;= #{queryDTO.updateTimeBegin}
+            </if>
+            <if test="queryDTO.updateTimeEnd != null ">
+                AND update_time &lt;= #{queryDTO.updateTimeEnd}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAllExportData" resultMap="AuthGroupEmployeeExcelVO">
+        select
+           id,
+           task_id,
+           employee_id,
+           update_time,
+           create_time
+        from t_auth_group_employee
+        <where>
+
+            <if test="queryDTO.createTimeBegin != null ">
+                AND create_time &gt;= #{queryDTO.createTimeBegin}
+            </if>
+            <if test="queryDTO.createTimeEnd != null ">
+                AND create_time &lt;= #{queryDTO.createTimeEnd}
+            </if>
+
+            <if test="queryDTO.updateTimeBegin != null ">
+                AND update_time &gt;= #{queryDTO.updateTimeBegin}
+            </if>
+            <if test="queryDTO.updateTimeEnd != null ">
+                AND update_time &lt;= #{queryDTO.updateTimeEnd}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBatchExportData" resultMap="AuthGroupEmployeeExcelVO">
+        select
+         id,
+         task_id,
+         employee_id,
+         update_time,
+         create_time
+        from t_auth_group_employee
+        where id in
+        <foreach collection="idList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="deleteById">
+        delete from t_auth_group_employee where id = #{id}
+    </delete>
+
+    <delete id="deleteByIdList">
+        delete from t_auth_group_employee where id in
+        <foreach collection="idList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>
